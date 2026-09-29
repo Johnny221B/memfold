@@ -10,7 +10,7 @@ set -euo pipefail
 : "${COMPRESSOR_CHECKPOINT:?Set COMPRESSOR_CHECKPOINT to the trained compressor}"
 : "${OUTPUT:?Set OUTPUT to a fresh output directory}"
 python -m torch.distributed.run --standalone --nproc_per_node="${NPROC_PER_NODE:-4}" \
-  scripts/train_on_policy_optimization.py \
+  memfold.py train optimize \
   --model "$MODEL" --initial-adapter "$INITIAL_ADAPTER" \
   --questions "$QUESTIONS" --self-memories "$SELF_MEMORIES" \
   --teacher-memories "$TEACHER_MEMORIES" --cache-dir "$CACHE_DIR" \

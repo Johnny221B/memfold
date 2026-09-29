@@ -8,7 +8,7 @@ import torch
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-from memory_extraction import extract_locomo_glm_memory_v3 as api
+from memory_extraction import extract_locomo_memory as api
 from .prepare import compact, jsonl, sha
 
 

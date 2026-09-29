@@ -155,8 +155,8 @@ Use Python 3.11 and a CUDA-compatible PyTorch installation. The training stack u
 git clone https://github.com/Johnny221B/memfold.git
 cd memfold
 pip install -e '.[test]'
-# Optional dependencies for baseline integrations:
-pip install -e '.[baselines]'
+# For memory generation with vLLM:
+pip install -e '.[inference]'
 ```
 
 ### 2. Download a checkpoint bundle
@@ -199,46 +199,46 @@ This checks **CPU loading of the memory components**, not end-to-end answer gene
 
 Base models, benchmark data, generated memories, and private experiment outputs are not bundled with this code. API credentials are supplied through environment variables or explicit key files.
 
-## Training pipeline
+## One workflow
 
-The release uses functional procedure names throughout the public entrypoints.
+Use `python memfold.py --help` for the command list. PersonaMem-32K and 128K share the same implementation; supply their corresponding data and checkpoint paths.
 
-| Procedure | Purpose | Entrypoint in `scripts/` |
-|---|---|---|
-| Memory-writer initialization | Learn to produce useful textual memories | `train_memory_writer_initialization.py` |
-| Compressor reconstruction | Learn the soft-memory interface from text | `train_compressor_reconstruction.py` |
-| Representation warmup | Shape memory representations with separation, alignment, and Gram regularization | `train_representation_warmup.py` |
-| Auxiliary reasoning adaptation | Adapt the compressor using evidence-grounded reasoning | `train_auxiliary_reasoning_adaptation.py` |
-| Reader initialization | Teach the reader to consume the soft-memory interface | `train_reader_initialization.py` |
-| On-policy optimization | Improve student-generated answers with task rewards and token guidance | `train_on_policy_optimization.py` |
+```text
+Prepare data → Extract API memory → Train writer
+             → Pretrain compressor → Train reader → Optimize
 
-Extract API training memories with `scripts/extract_personamem_api_memory.py`; context-only and LoCoMo extraction tools are in `memory_extraction/`. Set `OPENAI_API_KEY` or pass a key file. Generate the trained writer's own memories with `scripts/generate_personamem_self_memory.py`.
-
-Compressor pretraining comprises reconstruction, representation warmup, and auxiliary reasoning adaptation. The temporary reasoning LoRA is discarded before reader initialization. Reader initialization updates the reader LoRA, final resampler layer, output normalization, and projector. On-policy optimization updates only the student LoRA; **reference KL defaults to 0**, with the interface retained. Current defaults are not a substitute for the configuration of a particular historical experiment.
-
-```bash
-python scripts/extract_personamem_api_memory.py --help
-python scripts/train_compressor_reconstruction.py --help
-python scripts/train_reader_initialization.py --help
-python scripts/train_on_policy_optimization.py --help
-pytest -q
+Inference: Generate memory → Encode memory → Evaluate
 ```
 
-For the required artifacts and dataset-specific recipes, see [training and inputs](docs/training.md). A portable launch template is available in [examples/on_policy_optimization.sh](examples/on_policy_optimization.sh).
+| Operation | Command |
+|---|---|
+| Prepare benchmark inputs | `python memfold.py prepare data --help` |
+| Extract API supervision | `python memfold.py extract --help` |
+| Train memory writer | `python memfold.py train writer --help` |
+| Reconstruct memory | `python memfold.py train compressor --help` |
+| Warm up representations | `python memfold.py train warmup --help` |
+| Adapt compressor with reasoning | `python memfold.py train reasoning --help` |
+| Initialize reader | `python memfold.py train reader --help` |
+| Optimize with OPD + GRPO | `python memfold.py train optimize --help` |
+| Generate / encode / evaluate | `python memfold.py generate --help` / `encode --help` / `evaluate --help` |
+
+The three compressor procedures retain their distinct training objectives. The temporary reasoning LoRA is discarded before reader initialization. Optimization updates the student LoRA; **reference KL defaults to 0**. Supply explicit hyperparameters for the experiment being reproduced.
+
+See [training and inputs](docs/training.md) and [the inference example](examples/evaluate.sh). The default evaluator runs MemFold only and reports every trial, its mean, and its maximum. It uses greedy decoding; repeated trials change answer-option order.
 
 ## Repository guide
 
-| Directory / guide | What to find |
+| Location | Purpose |
 |---|---|
-| [`src/memory_opd/`](src/memory_opd/) | Shared memory components, objectives, and data utilities |
-| [`scripts/`](scripts/) | PersonaMem preparation, training, inference, and scoring |
-| [`memory_extraction/`](memory_extraction/) | Training-memory extraction tools |
-| [`locomo_pipeline/`](locomo_pipeline/) | Session-memory training and LongMemEval evaluation |
-| [`prefeval_pipeline/`](prefeval_pipeline/) | Preference-task generation and token accounting |
-| [`baselines/`](baselines/) · [baseline guide](docs/baselines.md) | Baseline integrations and comparison recipes |
-| [Repository map](docs/repository.md) | Artifact compatibility, dataset-specific layouts, and migration notes |
+| `memfold.py` | Common command entrypoint |
+| `scripts/` | Data preparation, training, and inference implementations |
+| `src/memory_opd/` | Model components, losses, and shared data utilities |
+| `memory_extraction/` | Context-only and LoCoMo API extraction |
+| `prefeval/` | PrefEval data preparation and evaluation |
+| `locomo_pipeline/` | Session-memory training and LongMemEval evaluation |
+| `examples/`, `docs/`, `tests/` | Launch commands, usage details, and correctness checks |
 
-Commands run from the repository root. The Python import namespace remains `memory_opd` for checkpoint and code compatibility. Some dataset-specific research recipes require prepared artifacts and local path configuration; they are not a one-command reproduction of every reported experiment.
+This source tree contains MemFold. Baseline results remain in the paper comparison tables; their implementations are not part of this release. The internal `memory_opd` and `locomo_pipeline` namespaces and tensor keys are retained for compatibility with the published HF loader and weights. Users do not need to organize runs by research-question numbers.
 
 ## Citation
 

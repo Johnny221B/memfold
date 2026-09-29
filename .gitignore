@@ -23,3 +23,7 @@ prepared/
 *.lock
 build/
 dist/
+
+# Source utilities, not benchmark data.
+!src/memory_opd/data/
+!src/memory_opd/data/*.py

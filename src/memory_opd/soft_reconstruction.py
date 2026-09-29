@@ -12,7 +12,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from memory_opd.rq2_baselines.personamem import load_contexts, render_context
+from memory_opd.data.personamem import load_contexts, render_context
 
 
 @dataclass(frozen=True)

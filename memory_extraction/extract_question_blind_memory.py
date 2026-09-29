@@ -332,13 +332,13 @@ def main() -> None:
     jobs: list[dict[str, Any]] = []
     sources: dict[str, str] = {}
     if "personamem32k" in args.datasets:
-        questions = workspace / "workflow_rq2/prepared/32k/personamem_32k_train.jsonl"
+        questions = workspace / "prepared/32k/personamem_32k_train.jsonl"
         contexts = workspace / "personamem_v1_raw/shared_contexts_32k.jsonl"
         jobs.extend(personamem_jobs(scale="32K", questions=questions, contexts_path=contexts))
         sources[str(questions)] = sha256_file(questions)
         sources[str(contexts)] = sha256_file(contexts)
     if "personamem128k" in args.datasets:
-        questions = workspace / "workflow_rq2/prepared/128k/personamem_128k_train.jsonl"
+        questions = workspace / "prepared/128k/personamem_128k_train.jsonl"
         contexts = workspace / "personamem_v1_raw/shared_contexts_128k.jsonl"
         jobs.extend(personamem_jobs(scale="128K", questions=questions, contexts_path=contexts))
         sources[str(questions)] = sha256_file(questions)

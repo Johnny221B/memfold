@@ -1,3 +1,3 @@
-"""MemFold: compressed memory training, inference, and baseline utilities."""
+"""MemFold: compact memory training and inference."""
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

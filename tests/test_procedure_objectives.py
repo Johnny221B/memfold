@@ -16,7 +16,7 @@ def load_module(relative_path):
 
 
 def test_warmup_distinguishes_separation_alignment_and_gram():
-    module = load_module('scripts/train_representation_warmup.py')
+    module = load_module('scripts/warmup_compressor.py')
     labels = torch.tensor([0, 0, 1, 1])
     vectors = torch.tensor([[1., 0.], [1., 0.], [0., 1.], [0., 1.]])
     separation_loss, alignment_loss, gram_regularization, _ = module.all_context_losses(

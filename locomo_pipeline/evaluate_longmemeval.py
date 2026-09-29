@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT/'datasets/longmemeval/longmemeval_s_cleaned.json'
 BASE = ROOT/'models/Qwen3-4B'
 ADAPTER = ROOT/'locomo_pipeline/runs/qwen3_4b_v3_e5_20260906/train/epoch_5'
-SOURCE = ROOT/'memory_extraction/extract_locomo_glm_memory_v3.py'
+SOURCE = ROOT/'memory_extraction/extract_locomo_memory.py'
 JUDGE_SOURCE = ROOT/'scripts/prepare_longmemeval_judge_batch.py'
 QUOTAS = {'single-session-user':7, 'multi-session':13,
           'single-session-preference':3, 'temporal-reasoning':13,

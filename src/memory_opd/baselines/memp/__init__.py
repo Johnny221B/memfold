@@ -1,1 +1,0 @@
-"""MemP baseline adapters."""

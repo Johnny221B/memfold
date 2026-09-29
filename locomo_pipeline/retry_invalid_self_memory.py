@@ -9,7 +9,7 @@ import sys
 from .compressor_data import read, save, sha
 from .prepare import compact
 from .extract_self_memory import inputs
-from memory_extraction import extract_locomo_glm_memory_v3 as schema
+from memory_extraction import extract_locomo_memory as schema
 
 ROOT=Path(__file__).resolve().parent.parent
 PRIOR=ROOT/'locomo_pipeline/runs/reader_initialization_self_e5_20260907_retry1'
