@@ -1,0 +1,59 @@
+{
+  "source_commit": "0704a0fa9910474425edb09a2aacddfb23102790",
+  "baseline_reference": "grpo",
+  "gpu_roles": {
+    "teacher": [
+      0
+    ],
+    "student": [
+      1,
+      2,
+      3
+    ],
+    "rollout": [
+      4,
+      5,
+      6,
+      7
+    ]
+  },
+  "steps": 369,
+  "checkpoint_steps": [
+    37,
+    74,
+    111,
+    148,
+    185,
+    222,
+    259,
+    296,
+    333,
+    369
+  ],
+  "global_questions_per_update": 2,
+  "rollouts_per_question": 8,
+  "global_real_rollouts_per_update": 16,
+  "student_microbatch": 1,
+  "student_accumulation_microsteps": 6,
+  "padding_rollouts": 2,
+  "ddp_rank_loss_scale": 0.1875,
+  "learning_rate": 5e-06,
+  "weight_decay": 0,
+  "max_grad_norm": 1,
+  "optimizer": "adamw_torch_fused",
+  "scheduler": "linear",
+  "warmup_steps": 0,
+  "seed": 42,
+  "temperature": 1.2,
+  "top_p": 1.0,
+  "max_completion_length": 5,
+  "lora_rank": 64,
+  "lora_alpha": 128,
+  "lora_dropout": 0,
+  "grpo_weight": 0.9,
+  "sdpo_weight": 0.1,
+  "teacher_ema_update_rate": 0.05,
+  "reward": "strict_binary_choice",
+  "model": "models/Qwen2.5-3B-Instruct",
+  "train_data": "data/personamem32k/train-full.jsonl"
+}

@@ -1,0 +1,14 @@
+name: CPU tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install -e '.[test]'
+      - run: pytest -q
+      - run: python -m compileall -q src scripts baselines locomo_pipeline prefeval_pipeline memory_extraction xrag_personamem radit_personamem

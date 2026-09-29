@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "memfold-research"
+version = "0.1.0"
+description = "MemFold: continuous memory training and evaluation"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["torch>=2.6", "transformers==4.57.1", "peft==0.17.1", "accelerate==1.11.0", "numpy", "pandas", "PyYAML", "httpx", "openai"]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+baselines = ["trl==0.26.0", "vllm==0.11.0", "datasets==3.6.0", "sentence-transformers", "rank-bm25"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
