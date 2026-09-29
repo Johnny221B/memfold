@@ -1,16 +1,32 @@
-<p align="center">
-  <img src="docs/assets/memfold-logo.png" width="150" alt="MemFold logo">
-</p>
-
-<h1 align="center">MemFold</h1>
+<h1 align="center">
+  <img src="docs/assets/memfold-logo.png" width="64" alt="MemFold icon">
+  MemFold
+</h1>
 <h3 align="center">Learning Compact Soft Memory for Long-Context Personalization<br>via On-Policy Optimization</h3>
 
 <p align="center"><b>Compact memory. Personalized answers.</b></p>
 
 <p align="center">
-  <a href="https://memfold.github.io/">Project page</a> ·
-  <a href="https://huggingface.co/Johnny221B/memfold">Model weights</a> ·
+  <a href="https://memfold.github.io/">
+    <img src="https://img.shields.io/badge/Project-Page-1F6FEB?style=for-the-badge&amp;logo=googlechrome&amp;logoColor=white" alt="Project Page">
+  </a>
+  <!-- TODO: Replace only the paper href below when the arXiv URL becomes available. -->
+  <a href="https://drive.google.com/file/d/1WgRcUQ7mfzxNVd74B5kLYAUUQzVIea5v/view" title="Paper manuscript; temporary Google Drive link">
+    <img src="https://img.shields.io/badge/arXiv-Paper-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="arXiv Paper">
+  </a>
+  <a href="https://huggingface.co/Johnny221B/memfold">
+    <img src="https://img.shields.io/badge/Model-Checkpoints-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=111827" alt="Model Checkpoints">
+  </a>
+  <a href="https://github.com/Johnny221B/memfold">
+    <img src="https://img.shields.io/badge/GitHub-Code-181717?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="GitHub Code">
+  </a>
+</p>
+
+<p align="center">
+  <a href="#overview">Overview</a> ·
+  <a href="#results">Results</a> ·
   <a href="#quick-start">Quick start</a> ·
+  <a href="#training-pipeline">Training</a> ·
   <a href="#citation">Citation</a>
 </p>
 
@@ -20,6 +36,10 @@
   <sup>1</sup>UC Santa Barbara · <sup>2</sup>UNC Chapel Hill · <sup>3</sup>Harvard University · <sup>4</sup>UW–Madison<br>
   <sup>*</sup>Equal contribution
 </p>
+
+## News
+
+- **2026-09-29**: The paper manuscript, code, and model checkpoints are available through the links above. The README now includes results, paper figures, and a checkpoint quick start.
 
 ## Overview
 
