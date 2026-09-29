@@ -1,0 +1,35 @@
+{
+  "retrieved": "2026-09-29",
+  "assets": [
+    {
+      "file": "memfold-logo.png",
+      "source": "Author-provided paper artwork: pic/memflow-logo.png",
+      "sha256": "d12d98ba17155b995521277cf03f3d9bce143d06b453cbfac3b02c236d43050d",
+      "modifications": "None; original bytes preserved. Public filenames normalized to MemFold."
+    },
+    {
+      "file": "method.png",
+      "source": "https://memfold.github.io/assets/method.png",
+      "sha256": "bed02778f97c06e90d0d1babd7a0d9ce7d84aedaa42a15eda98003a0a1cc25fb",
+      "modifications": "None; original bytes preserved. Public filenames normalized to MemFold."
+    },
+    {
+      "file": "training-efficiency.png",
+      "source": "Author-provided paper figure: pic/memflow_efficiency_comparison.png",
+      "sha256": "07c14b46e6d4f1a7f2d388cb7cc2be7e343b4e353b6be090f794ecaa09af114b",
+      "modifications": "None; original bytes preserved. Public filenames normalized to MemFold."
+    },
+    {
+      "file": "memory-analysis.png",
+      "source": "Author-provided paper figure: pic/soft_memory_analysis_preview.png",
+      "sha256": "fa9a603048f072cc74e9b10a6f1ce5b71e6004ff68bcd71bb7044904a9891402",
+      "modifications": "None; original bytes preserved. Public filenames normalized to MemFold."
+    },
+    {
+      "file": "personalization-case.svg",
+      "source": "https://memfold.github.io/assets/personalization-case.svg",
+      "sha256": "81fa9c0a4752c4853a5800973076c02294fde324c5fdf0be4a472871932771a7",
+      "modifications": "None; original bytes preserved. Public filenames normalized to MemFold."
+    }
+  ]
+}
