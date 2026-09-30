@@ -136,19 +136,18 @@ def main() -> None:
             # A label character may naturally occur; reject only the explicit answer field form.
             if "gold_label" in serialized or "Correct answer:" in serialized:
                 raise ValueError(f"privileged answer leaked into writer messages: {row['task_id']}")
-        prompt_ids = tokenizer.apply_chat_template(
-            messages,
-            tokenize=True,
-            truncation=True,
-            max_length=131000,
-            add_generation_prompt=True,
-            enable_thinking=False,
+        prompt = tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True, enable_thinking=False,
         )
-        prompts.append(tokenizer.decode(prompt_ids, skip_special_tokens=False))
+        token_count = len(tokenizer.encode(prompt, add_special_tokens=False, truncation=False))
+        if token_count + args.maximum_memory_tokens > args.max_model_len:
+            raise ValueError(f"Full prompt exceeds engine capacity: {row['task_id']}: {token_count}")
+        prompts.append(prompt)
 
     llm = LLM(
         model=str(args.model),
         tensor_parallel_size=1,
+        rope_scaling={"rope_type": "yarn", "factor": 4.5, "original_max_position_embeddings": 32768},
         max_model_len=args.max_model_len,
         gpu_memory_utilization=args.gpu_memory_utilization,
         dtype="bfloat16",
@@ -210,6 +209,8 @@ def main() -> None:
         "maximum_memory_tokens": args.maximum_memory_tokens,
         "seed": args.seed,
         "answers_sent_to_writer": False,
+        "input_truncation": False,
+        "full_prompt_and_output_capacity_checked": True,
         "memories": str(memories_path),
     }
     (args.output / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")

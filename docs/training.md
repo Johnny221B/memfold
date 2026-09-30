@@ -61,3 +61,9 @@ Run `examples/evaluate.sh` from the repository root with `MODEL`, `BUNDLE`, `QUE
 The evaluator writes `rows.jsonl`, `config.json`, and `summary.json`. Five trials are deterministic option permutations under greedy decoding, not five stochastic samples.
 
 For PrefEval, use `python prefeval/prepare.py --help` and `python prefeval/evaluate.py --help`. One evaluation implementation accepts all supported backbones through `--model` and `--checkpoint`; it accepts the public `reader/` + `bridge.pt` bundle layout.
+
+## 128K optimization branch
+
+This experiment branch preserves the historical PersonaMem-128K protocol: writer inference uses YaRN factor 4.5 (original context 32768), a 140000-token runtime context, greedy decoding, and an explicit input-plus-output capacity check without truncation. Pass the historical writer output budget: 1024 for Qwen3-4B and 4096 for Qwen2.5-3B/7B. Training rewards and evaluation use the same fixed explicit-answer normalization (`answer_parser.py`).
+
+`train optimize --maximum-total-updates 1000 --save-every-updates 200` stops at exactly 1000 optimizer updates and writes `checkpoints/step-200/adapter` through `step-1000/adapter`. Each epoch retains its full shuffled data order; the update limit does not repeatedly truncate each epoch. Set sufficient `--epochs` to reach the requested update count. These branch-specific defaults should not be used as a silent replacement for the 32K protocol.

@@ -22,11 +22,9 @@ LEADING_OPTION = re.compile(r"(?i)^\s*(\([a-d]\))")
 
 
 def parsed_choice(text: str) -> str | None:
-    matches = FINAL_ANSWER.findall(text)
-    if matches:
-        return matches[-1].lower()
-    leading = LEADING_OPTION.match(text)
-    return leading.group(1).lower() if leading else parse_choice(text)
+    # Same explicit answer-format normalization as the historical 128K protocol.
+    from answer_parser import normalized_choice
+    return parse_choice(text) or normalized_choice(text)
 
 def soft_prefix(
     model: Any,

@@ -24,7 +24,12 @@ from memory_opd.compressed_opd import (
 )
 from memory_opd.opd.seed_loss import seed_sampled_token_opd_loss
 from memory_opd.opd.soft_seed import group_normalized_advantages, soft_seed_mixed_loss
-from memory_opd.data.rewards import parse_choice
+from memory_opd.data.rewards import parse_choice as strict_parse_choice
+from answer_parser import normalized_choice
+
+def parse_choice(text):
+    return strict_parse_choice(text) or normalized_choice(text)
+
 from policy_utils import (
     cached_soft_memory,
     chat_ids,
@@ -167,7 +172,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--expected-token-count", type=int, default=256)
     parser.add_argument("--maximum-updates-per-epoch", type=int, default=0)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--maximum-total-updates", type=int, default=0)
+    parser.add_argument("--save-every-updates", type=int, default=0)
     args = parser.parse_args()
+    if args.maximum_total_updates < 0 or args.save_every_updates < 0:
+        parser.error("update limits must be nonnegative")
     args.procedure = "on_policy_optimization"
     if args.mode == "opd_grpo" and args.group_size < 2:
         parser.error("opd_grpo requires group-size >= 2")
@@ -225,6 +234,9 @@ def main() -> None:
     updates_per_epoch = math.ceil(len(examples) / world_size)
     if args.maximum_updates_per_epoch:
         updates_per_epoch = min(updates_per_epoch, args.maximum_updates_per_epoch)
+    total_updates = updates_per_epoch * args.epochs
+    if args.maximum_total_updates:
+        total_updates = min(total_updates, args.maximum_total_updates)
     group_size = args.group_size if args.mode == "opd_grpo" else 1
     if rank == 0:
         if args.output.exists():
@@ -237,7 +249,8 @@ def main() -> None:
             "rollouts_per_question": group_size,
             "rollouts_per_global_update": world_size * group_size,
             "updates_per_epoch": updates_per_epoch,
-            "total_updates": updates_per_epoch * args.epochs,
+            "total_updates": total_updates,
+            "reward_parser": "strict_then_fixed_normalized_choice",
             "teacher_update_mode": args.teacher_update_mode,
             "teacher_frozen_for_entire_run": args.teacher_update_mode == "frozen_initial",
             "teacher_frozen_within_update": True,
@@ -263,6 +276,8 @@ def main() -> None:
         slots = updates_per_epoch * world_size
         padded = order + order[: slots - len(order)]
         for update in range(updates_per_epoch):
+            if global_update >= total_updates:
+                break
             global_update += 1
             question_id = padded[update * world_size + rank]
             example = example_by_id[question_id]
@@ -359,19 +374,29 @@ def main() -> None:
                 with metrics_path.open("a", encoding="utf-8") as handle:
                     handle.write(json.dumps(metric) + "\n")
                 print(json.dumps(metric), flush=True)
-        dist.barrier()
-        if rank == 0:
-            adapter = args.output / "checkpoints" / f"epoch-{epoch + 1}" / "adapter"
-            adapter.mkdir(parents=True)
-            policy.save_pretrained(adapter, safe_serialization=True)
-        dist.barrier()
+            if args.save_every_updates and (global_update % args.save_every_updates == 0 or global_update == total_updates):
+                dist.barrier()
+                if rank == 0:
+                    adapter = args.output / "checkpoints" / f"step-{global_update}" / "adapter"
+                    adapter.mkdir(parents=True)
+                    policy.save_pretrained(adapter, safe_serialization=True)
+                dist.barrier()
+        if not args.save_every_updates:
+            dist.barrier()
+            if rank == 0:
+                adapter = args.output / "checkpoints" / f"epoch-{epoch + 1}" / "adapter"
+                adapter.mkdir(parents=True)
+                policy.save_pretrained(adapter, safe_serialization=True)
+            dist.barrier()
+        if global_update >= total_updates:
+            break
 
     if rank == 0:
         result = {"procedure": PROCEDURE,
             "status": "completed", "mode": args.mode, "epochs": args.epochs,
             "teacher_update_mode": args.teacher_update_mode,
             "total_updates": global_update,
-            "final_adapter": str(args.output / "checkpoints" / f"epoch-{args.epochs}" / "adapter"),
+            "final_adapter": str(args.output / "checkpoints" / (f"step-{global_update}" if args.save_every_updates else f"epoch-{epoch + 1}") / "adapter"),
         }
         (args.output / "result.json").write_text(json.dumps(result, indent=2) + "\n")
         print(json.dumps(result), flush=True)
