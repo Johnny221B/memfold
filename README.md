@@ -10,8 +10,7 @@
   <a href="https://memfold.github.io/">
     <img src="https://img.shields.io/badge/Project-Page-1F6FEB?style=for-the-badge&amp;logo=googlechrome&amp;logoColor=white" alt="Project Page">
   </a>
-  <!-- TODO: Replace only the paper href below when the arXiv URL becomes available. -->
-  <a href="https://drive.google.com/file/d/1WgRcUQ7mfzxNVd74B5kLYAUUQzVIea5v/view" title="Paper manuscript; temporary Google Drive link">
+  <a href="https://arxiv.org/abs/2609.36435" title="Read the paper on arXiv">
     <img src="https://img.shields.io/badge/arXiv-Paper-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="arXiv Paper">
   </a>
   <a href="https://huggingface.co/Johnny221B/memfold">
@@ -247,7 +246,10 @@ This source tree contains MemFold. Baseline results remain in the paper comparis
   title  = {{MemFold}: Learning Compact Soft Memory for Long-Context Personalization via On-Policy Optimization},
   author = {Jingxuan Wu and Yuzhe Yang and Yiqiao Huang and Chengzhi Liu and Qingni Wang and Chengxuan Qian and Shutong Wu and Jiawei Zhang and Xin Eric Wang},
   year   = {2026},
-  url    = {https://memfold.github.io/}
+  eprint = {2609.36435},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL},
+  url    = {https://arxiv.org/abs/2609.36435}
 }
 ```
 
