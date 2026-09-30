@@ -242,14 +242,14 @@ This source tree contains MemFold. Baseline results remain in the paper comparis
 ## Citation
 
 ```bibtex
-@misc{wu2026memfold,
-  title  = {{MemFold}: Learning Compact Soft Memory for Long-Context Personalization via On-Policy Optimization},
-  author = {Jingxuan Wu and Yuzhe Yang and Yiqiao Huang and Chengzhi Liu and Qingni Wang and Chengxuan Qian and Shutong Wu and Jiawei Zhang and Xin Eric Wang},
-  year   = {2026},
-  eprint = {2609.36435},
-  archivePrefix = {arXiv},
-  primaryClass = {cs.CL},
-  url    = {https://arxiv.org/abs/2609.36435}
+@misc{wu2026memfoldlearningcompactsoft,
+      title={MemFold: Learning Compact Soft Memory for Long-Context Personalization via On-Policy Optimization},
+      author={Jingxuan Wu and Yuzhe Yang and Yiqiao Huang and Chengzhi Liu and Qingni Wang and Chengxuan Qian and Shutong Wu and Jiawei Zhang and Xin Eric Wang},
+      year={2026},
+      eprint={2609.36435},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2609.36435},
 }
 ```
 
