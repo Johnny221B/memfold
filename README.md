@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="docs/assets/memfold-logo.png" width="64" align="middle" alt="MemFold icon">
+  <img src="docs/assets/memfold-logo.png" width="64" align="absmiddle" alt="MemFold icon">
   MemFold
 </h1>
 <h3 align="center">Learning Compact Soft Memory for Long-Context Personalization<br>via On-Policy Optimization</h3>
