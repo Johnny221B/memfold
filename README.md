@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="docs/assets/memfold-logo.png" width="64" alt="MemFold icon">
+  <img src="docs/assets/memfold-logo.png" width="64" align="middle" alt="MemFold icon">
   MemFold
 </h1>
 <h3 align="center">Learning Compact Soft Memory for Long-Context Personalization<br>via On-Policy Optimization</h3>
@@ -7,18 +7,10 @@
 <p align="center"><b>Compact memory. Personalized answers.</b></p>
 
 <p align="center">
-  <a href="https://memfold.github.io/">
-    <img src="https://img.shields.io/badge/Project-Page-1F6FEB?style=for-the-badge&amp;logo=googlechrome&amp;logoColor=white" alt="Project Page">
-  </a>
-  <a href="https://arxiv.org/abs/2609.36435" title="Read the paper on arXiv">
-    <img src="https://img.shields.io/badge/arXiv-Paper-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="arXiv Paper">
-  </a>
-  <a href="https://huggingface.co/Johnny221B/memfold">
-    <img src="https://img.shields.io/badge/Model-Checkpoints-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=111827" alt="Model Checkpoints">
-  </a>
-  <a href="https://github.com/Johnny221B/memfold">
-    <img src="https://img.shields.io/badge/GitHub-Code-181717?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="GitHub Code">
-  </a>
+  <a href="https://memfold.github.io/"><img src="https://img.shields.io/badge/Project-Page-1F6FEB?style=for-the-badge&amp;logo=googlechrome&amp;logoColor=white" alt="Project Page"></a>
+  <a href="https://arxiv.org/abs/2609.36435" title="Read the paper on arXiv"><img src="https://img.shields.io/badge/arXiv-Paper-B31B1B?style=for-the-badge&amp;logo=arxiv&amp;logoColor=white" alt="arXiv Paper"></a>
+  <a href="https://huggingface.co/Johnny221B/memfold"><img src="https://img.shields.io/badge/Model-Checkpoints-FFD21E?style=for-the-badge&amp;logo=huggingface&amp;logoColor=111827" alt="Model Checkpoints"></a>
+  <a href="https://github.com/Johnny221B/memfold"><img src="https://img.shields.io/badge/GitHub-Code-181717?style=for-the-badge&amp;logo=github&amp;logoColor=white" alt="GitHub Code"></a>
 </p>
 
 <p align="center">
